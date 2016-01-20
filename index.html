@@ -8,27 +8,24 @@
 <body onload="main()">
 	<canvas id='test' height='620' width='580'>Текст показывается, если элемент не поддерживается</canvas>
 
-	<div id="output"></div>
 	<script type="text/javascript">
-		// тут задаются основные переменные
+		// тут задаются основные переменные (радиус/начал/)
 		var startX = 60;
 		var startY = 0;
-		var interval = 100;
+		var interval = 20;
 
 		function main() {
 
-            var mainRadius = startX;
+			var mainRadius = startX;
 
 			var canvas = document.getElementById("test");
-            var ctx = canvas.getContext('2d');
-            ctx.translate(startX*2,startX)
-			ctx.beginPath();
-			//ctx.arc(mainRadius, mainRadius, mainRadius, 0, 360, false);
+			var ctx = canvas.getContext('2d');
+			ctx.lineWidth = 1;
+			ctx.translate(startX*2,startX);
 
 			drowCircles(interval, mainRadius, ctx);
 
 			ctx.stroke();
-			ctx.closePath();
 
 		}
 
@@ -52,6 +49,8 @@
 
 				ctx.moveTo(coordinates[i][0]+coordinates[i][2], coordinates[i][1]);
 				ctx.arc(coordinates[i][0], coordinates[i][1], coordinates[i][2], 0, 360, false);
+				ctx.stroke();
+				setTimeout(console.log('pause'),1000);
 			}
 		}
 	</script>
