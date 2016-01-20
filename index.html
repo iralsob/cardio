@@ -1,0 +1,58 @@
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body onload="main()">
+	<canvas id='test' height='620' width='580'>Текст показывается, если элемент не поддерживается</canvas>
+
+	<div id="output"></div>
+	<script type="text/javascript">
+		var startX = 60;
+		var startY = 0;
+		var interval = 100;
+
+		function main() {
+
+            var mainRadius = startX;
+
+			var canvas = document.getElementById("test");
+            var ctx = canvas.getContext('2d');
+            ctx.translate(startX*2,startX)
+			ctx.beginPath();
+			//ctx.arc(mainRadius, mainRadius, mainRadius, 0, 360, false);
+
+			drowCircles(interval, mainRadius, ctx);
+
+			ctx.stroke();
+			ctx.closePath();
+
+		}
+
+		function drowCircles(quantity, radius, ctx){
+			var coordinates = [];
+			var x0 = radius*2;
+			var y0 = radius;
+			var alpha = 2*Math.PI/quantity;
+
+			// вычисляем для каждой окружности координаты центра и радиус
+			// и отрисовываем ее
+			for(i=0; i<quantity;i++){ 
+				coordinates[i]=[];
+
+				coordinates[i][0]=radius+(x0-radius)*Math.cos(alpha)-(y0-radius)*Math.sin(alpha);
+				coordinates[i][1]=radius+(x0-radius)*Math.sin(alpha)+(y0-radius)*Math.cos(alpha);
+				coordinates[i][2]=Math.sqrt(Math.pow((startX-coordinates[i][0]),2)+Math.pow((startY-coordinates[i][1]),2)); // сюда пишем радиус
+				
+				x0 = coordinates[i][0];
+				y0 = coordinates[i][1];
+
+				ctx.moveTo(coordinates[i][0]+coordinates[i][2], coordinates[i][1]);
+				ctx.arc(coordinates[i][0], coordinates[i][1], coordinates[i][2], 0, 360, false);
+			}
+		}
+	</script>
+</body>
+</html>
