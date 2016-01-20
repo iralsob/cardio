@@ -12,7 +12,7 @@
 		// тут задаются основные переменные (радиус/начал/)
 		var startX = 60;
 		var startY = 0;
-		var interval = 20;
+		var interval = 10;
 
 		function main() {
 
@@ -25,7 +25,7 @@
 
 			drowCircles(interval, mainRadius, ctx);
 
-			ctx.stroke();
+			//ctx.stroke();
 
 		}
 
@@ -48,10 +48,30 @@
 				y0 = coordinates[i][1];
 
 				ctx.moveTo(coordinates[i][0]+coordinates[i][2], coordinates[i][1]);
+
 				ctx.arc(coordinates[i][0], coordinates[i][1], coordinates[i][2], 0, 360, false);
-				ctx.stroke();
-				setTimeout(console.log('pause'),1000);
+				
+				setTimeout(animate(coordinates[i][0], coordinates[i][1], coordinates[i][1], ctx),1000);
 			}
+		}
+		function animate (x, y, r, ctx) {
+			ctx.moveTo(x+r, y);
+			var currentX = x;
+			var currentY = y;
+			var currentR = r;
+			var currentCTX = ctx;
+			for (var i=0;i<5;i++){
+				ctx.moveTo(currentX+currentR, currentY);
+				doScaledTimeout(i, currentX, currentY, currentR, currentCTX);
+			}
+		}
+		function doScaledTimeout(i, x, y, r, ctx) {
+		  setTimeout(function() {
+		    console.log(i);
+		    ctx.moveTo(x, y);
+			ctx.arc(x, y, r, i, i+1, false);
+			ctx.stroke();
+		  }, i * 500);
 		}
 	</script>
 </body>
