@@ -18,6 +18,7 @@
 			var canvas = document.getElementById("test");
 			var ctx = canvas.getContext('2d');
 			ctx.lineWidth = 1;
+			ctx.strokeStyle = '#cc0000';
 			ctx.translate(startX*2,startX);
 
 			drowCircles(interval, mainRadius, ctx);
