@@ -1,9 +1,6 @@
 <html>
 <head>
 	<title></title>
-	<style type="text/css">
-		
-	</style>
 </head>
 <body onload="main()">
 	<canvas id='test' height='620' width='580'>Текст показывается, если элемент не поддерживается</canvas>
@@ -24,9 +21,6 @@
 			ctx.translate(startX*2,startX);
 
 			drowCircles(interval, mainRadius, ctx);
-
-			//ctx.stroke();
-
 		}
 
 		function drowCircles(quantity, radius, ctx){
@@ -47,31 +41,33 @@
 				x0 = coordinates[i][0];
 				y0 = coordinates[i][1];
 
-				ctx.moveTo(coordinates[i][0]+coordinates[i][2], coordinates[i][1]);
+				//ctx.moveTo(coordinates[i][0]+coordinates[i][2], coordinates[i][1]);
 
-				ctx.arc(coordinates[i][0], coordinates[i][1], coordinates[i][2], 0, 360, false);
-				
-				setTimeout(animate(coordinates[i][0], coordinates[i][1], coordinates[i][1], ctx),1000);
+				setTimeout(animate, 3000*i, coordinates[i][0], coordinates[i][1],coordinates[i][2], ctx);
 			}
 		}
 		function animate (x, y, r, ctx) {
-			ctx.moveTo(x+r, y);
-			var currentX = x;
-			var currentY = y;
-			var currentR = r;
-			var currentCTX = ctx;
-			for (var i=0;i<5;i++){
-				ctx.moveTo(currentX+currentR, currentY);
-				doScaledTimeout(i, currentX, currentY, currentR, currentCTX);
+			for (var i=0;i<2*Math.PI;i=i+Math.PI/20){
+				//ctx.moveTo(x+r, y);
+				doScaledTimeout(i, x, y, r, ctx);
 			}
 		}
+
 		function doScaledTimeout(i, x, y, r, ctx) {
-		  setTimeout(function() {
-		    console.log(i);
-		    ctx.moveTo(x, y);
-			ctx.arc(x, y, r, i, i+1, false);
-			ctx.stroke();
-		  }, i * 500);
+			var oldX=x+r;
+			var oldY=y;
+			var newX, newY;
+			setTimeout(function() {
+				newX = r + (oldX-r)*Math.cos(Math.PI/20)-(oldY-r)*Math.sin(Math.PI/20);
+				newY = r + (oldX-r)*Math.sin(Math.PI/20)+(oldY-r)*Math.cos(Math.PI/20);
+				console.log(oldX+' new: '+newX);
+				oldX = newX;
+				oldY = newY;
+				
+				ctx.moveTo(newX, newY);
+				ctx.arc(x, y, r, i, i+1, false);
+				ctx.stroke();
+			}, i*500);
 		}
 	</script>
 </body>
