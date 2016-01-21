@@ -9,7 +9,7 @@
 		// тут задаются основные переменные (радиус/начал/)
 		var startX = 60;
 		var startY = 0;
-		var interval = 10;
+		var interval = 16;
 
 		function main() {
 
@@ -47,16 +47,21 @@
 			}
 		}
 		function animate (x, y, r, ctx) {
+			
 			for (var i=0;i<2*Math.PI;i=i+Math.PI/20){
-				//ctx.moveTo(x+r, y);
+				ctx.moveTo(x+r, y);
 				doScaledTimeout(i, x, y, r, ctx);
 			}
 		}
 
 		function doScaledTimeout(i, x, y, r, ctx) {
-			var oldX=x+r;
-			var oldY=y;
-			var newX, newY;
+			
+			var newX, newY, oldX, oldY;
+			if(i==0){
+				oldX=x+r;
+				oldY=y;
+			}
+			
 			setTimeout(function() {
 				newX = r + (oldX-r)*Math.cos(Math.PI/20)-(oldY-r)*Math.sin(Math.PI/20);
 				newY = r + (oldX-r)*Math.sin(Math.PI/20)+(oldY-r)*Math.cos(Math.PI/20);
