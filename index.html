@@ -46,6 +46,7 @@
 		}
 		function animate (x, y, r, ctx) { //рисуем окружность
 			for (var i=0;i<2*Math.PI;i=i+Math.PI/20){
+			// рисуем 1/20 окружности, вычисляем начало и конец дуги
 				if (i==0){
 					startX = x+r;
 					startY = y;
@@ -55,13 +56,12 @@
 				}
 				endX =  x + (startX-x)*Math.cos(Math.PI/20)-(startY-y)*Math.sin(Math.PI/20);
 				endY =  y + (startX-x)*Math.sin(Math.PI/20)+(startY-y)*Math.cos(Math.PI/20);
-				console.log('x: '+x+'; y: '+y+'; oldX: '+endX);
+				
 				doScaledTimeout(i, x, y, r, ctx, endX, endY);
 			}
 		}
 
 		function doScaledTimeout(i, x, y, r, ctx, endX, endY) { // рисуем кусок окружности
-			var endX, endY, startX, startY;
 			setTimeout(function() {
 				ctx.moveTo(endX, endY);
 				ctx.arc(x, y, r, i, i+1, false);
