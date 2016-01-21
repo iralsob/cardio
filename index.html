@@ -44,29 +44,29 @@
 				setTimeout(animate, 2000*i, coordinates[i][0], coordinates[i][1],coordinates[i][2], ctx);
 			}
 		}
-		function animate (x, y, r, ctx) {
+		function animate (x, y, r, ctx) { //рисуем окружность
 			for (var i=0;i<2*Math.PI;i=i+Math.PI/20){
-				doScaledTimeout(i, x, y, r, ctx);
+				if (i==0){
+					startX = x+r;
+					startY = y;
+				} else {
+					startX = endX;
+					startY = endY;
+				}
+				endX =  x + (startX-x)*Math.cos(Math.PI/20)-(startY-y)*Math.sin(Math.PI/20);
+				endY =  y + (startX-x)*Math.sin(Math.PI/20)+(startY-y)*Math.cos(Math.PI/20);
+				console.log('x: '+x+'; y: '+y+'; oldX: '+endX);
+				doScaledTimeout(i, x, y, r, ctx, endX, endY);
 			}
 		}
 
-		function doScaledTimeout(i, x, y, r, ctx) {
-			
-			var oldX, oldY;
-			
+		function doScaledTimeout(i, x, y, r, ctx, endX, endY) { // рисуем кусок окружности
+			var endX, endY, startX, startY;
 			setTimeout(function() {
-				if (i==0){
-					oldX=x+r;
-					oldY=y;
-				} else {
-					oldX = r + (oldX-r)*Math.cos(Math.PI/20)-(oldY-r)*Math.sin(Math.PI/20);
-					oldY = r + (oldX-r)*Math.sin(Math.PI/20)+(oldY-r)*Math.cos(Math.PI/20);
-				}
-				
-				ctx.moveTo(oldX, oldY);
+				ctx.moveTo(endX, endY);
 				ctx.arc(x, y, r, i, i+1, false);
 				ctx.stroke();
-			}, i*100);
+			}, i*100, x, y, r, i);
 		}
 	</script>
 </body>
