@@ -9,7 +9,7 @@
 		// тут задаются основные переменные (радиус/начал/)
 		var startX = 60;
 		var startY = 0;
-		var interval = 16;
+		var interval = 14;
 
 		function main() {
 
@@ -41,38 +41,32 @@
 				x0 = coordinates[i][0];
 				y0 = coordinates[i][1];
 
-				//ctx.moveTo(coordinates[i][0]+coordinates[i][2], coordinates[i][1]);
-
-				setTimeout(animate, 3000*i, coordinates[i][0], coordinates[i][1],coordinates[i][2], ctx);
+				setTimeout(animate, 2000*i, coordinates[i][0], coordinates[i][1],coordinates[i][2], ctx);
 			}
 		}
 		function animate (x, y, r, ctx) {
-			
 			for (var i=0;i<2*Math.PI;i=i+Math.PI/20){
-				ctx.moveTo(x+r, y);
 				doScaledTimeout(i, x, y, r, ctx);
 			}
 		}
 
 		function doScaledTimeout(i, x, y, r, ctx) {
 			
-			var newX, newY, oldX, oldY;
-			if(i==0){
-				oldX=x+r;
-				oldY=y;
-			}
+			var oldX, oldY;
 			
 			setTimeout(function() {
-				newX = r + (oldX-r)*Math.cos(Math.PI/20)-(oldY-r)*Math.sin(Math.PI/20);
-				newY = r + (oldX-r)*Math.sin(Math.PI/20)+(oldY-r)*Math.cos(Math.PI/20);
-				console.log(oldX+' new: '+newX);
-				oldX = newX;
-				oldY = newY;
+				if (i==0){
+					oldX=x+r;
+					oldY=y;
+				} else {
+					oldX = r + (oldX-r)*Math.cos(Math.PI/20)-(oldY-r)*Math.sin(Math.PI/20);
+					oldY = r + (oldX-r)*Math.sin(Math.PI/20)+(oldY-r)*Math.cos(Math.PI/20);
+				}
 				
-				ctx.moveTo(newX, newY);
+				ctx.moveTo(oldX, oldY);
 				ctx.arc(x, y, r, i, i+1, false);
 				ctx.stroke();
-			}, i*500);
+			}, i*100);
 		}
 	</script>
 </body>
